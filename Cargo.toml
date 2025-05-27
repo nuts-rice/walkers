@@ -5,7 +5,7 @@ members = [
     "demo_native",
     "demo_web",
     "demo_android/rust",
-    "hypermocker",
+    "hypermocker", "demo_segment",
 ]
 resolver = "2"
 

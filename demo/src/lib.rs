@@ -6,7 +6,7 @@ mod windows;
 
 use std::collections::BTreeMap;
 
-use crate::plugins::ImagesPluginData;
+use crate::plugins::{SegmentorPluginData, ImagesPluginData};
 use egui::{CentralPanel, Context, Frame};
 use tiles::{providers, Provider, TilesKind};
 use walkers::{Map, MapMemory};
@@ -17,6 +17,7 @@ pub struct MyApp {
     map_memory: MapMemory,
     images_plugin_data: ImagesPluginData,
     click_watcher: plugins::ClickWatcher,
+    segmentor_plugin_data: SegmentorPluginData,
 }
 
 impl MyApp {
@@ -26,12 +27,16 @@ impl MyApp {
         // Data for the `images` plugin showcase.
         let images_plugin_data = ImagesPluginData::new(egui_ctx.to_owned());
 
+        let segmentor_plugin_data = SegmentorPluginData::new(egui_ctx.to_owned()); 
+
         Self {
             providers: providers(egui_ctx.to_owned()),
             selected_provider: Provider::OpenStreetMap,
             map_memory: MapMemory::default(),
             images_plugin_data,
             click_watcher: Default::default(),
+            segmentor_plugin_data
+
         }
     }
 }
@@ -56,7 +61,8 @@ impl eframe::App for MyApp {
                 .with_plugin(plugins::places())
                 .with_plugin(plugins::images(&mut self.images_plugin_data))
                 .with_plugin(plugins::CustomShapes {})
-                .with_plugin(&mut self.click_watcher);
+                .with_plugin(&mut self.click_watcher)
+                .with_plugin(plugins::segment_image(&mut self.segmentor_plugin_data));
 
             for (n, tiles) in tiles.iter_mut().enumerate() {
                 let transparency = if n == 0 { 1.0 } else { 0.25 };

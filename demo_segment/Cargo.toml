@@ -1,0 +1,12 @@
+[package]
+name = "demo_segment"
+version.workspace = true
+edition = "2021"
+publish = false
+default-run = "demo_segment"
+
+[dependencies]
+demo = { path = "../demo" }
+eframe.workspace = true
+egui.workspace = true
+env_logger = "0.11"

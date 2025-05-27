@@ -3,7 +3,6 @@ use walkers::{
     extras::{GroupedPlaces, Image, LabeledSymbol, LabeledSymbolStyle, Places, Texture},
     Plugin, Position, Projector,
 };
-
 use crate::places;
 
 /// Creates a built-in `Places` plugin with some predefined places.
@@ -115,3 +114,46 @@ impl Plugin for &mut ClickWatcher {
         }
     }
 }
+
+pub struct SegmentorPluginData {
+
+    pub image_texture: Texture,
+    pub segments_bb: Vec<egui::Rect>,
+    pub mask_texture: Texture,
+    pub x_scale: f32,
+    pub y_scale: f32,
+    pub angle: f32
+
+}
+
+impl SegmentorPluginData {
+    pub fn new(egui_ctx: egui::Context) -> Self {
+        unimplemented!()
+    
+}
+}
+
+pub fn segment_image(segmentor_plugin_data: &mut SegmentorPluginData) -> impl Plugin {
+    Places::new(vec![{
+        let mut image = Image::new(segmentor_plugin_data.image_texture.clone(), places::wroclavia());
+        image.scale(segmentor_plugin_data.x_scale, segmentor_plugin_data.y_scale);
+        image.angle(segmentor_plugin_data.angle.to_radians());
+        image
+    }])
+        
+}
+
+
+    
+
+pub struct SegmentShapes {
+
+}
+
+impl Plugin for SegmentShapes {
+    fn run(self: Box<Self>, ui: &mut Ui, response: &Response, projector: &Projector ) {
+
+unimplemented!()
+    }
+    }
+ 
